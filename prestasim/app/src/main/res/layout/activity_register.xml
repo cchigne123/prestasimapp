@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="false"
+    android:orientation="vertical"
+    tools:context="pe.edu.upc.prestasim.activities.RegisterActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="@string/register"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="25dp">
+
+        <EditText
+            android:id="@+id/nameET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_ets"
+            android:inputType="text"
+            android:padding="6dp"
+            android:textSize="13sp"
+            android:hint="@string/name"
+            android:textColor="@android:color/black"/>
+
+        <EditText
+            android:id="@+id/dniET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_ets"
+            android:inputType="number"
+            android:maxLength="8"
+            android:padding="6dp"
+            android:textSize="13sp"
+            android:layout_marginTop="15dp"
+            android:hint="@string/dni"
+            android:textColor="@android:color/black"/>
+
+        <EditText
+            android:id="@+id/passwordET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_ets"
+            android:inputType="textPassword"
+            android:padding="6dp"
+            android:hint="@string/password"
+            android:layout_marginTop="15dp"
+            android:textSize="13sp"
+            android:textColor="@android:color/black"/>
+
+        <EditText
+            android:id="@+id/birthDateET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_ets"
+            android:inputType="date"
+            android:padding="6dp"
+            android:hint="@string/birth_date"
+            android:layout_marginTop="15dp"
+            android:textSize="13sp"
+            android:textColor="@android:color/black"/>
+
+        <EditText
+            android:id="@+id/emailET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_ets"
+            android:inputType="textEmailAddress"
+            android:padding="6dp"
+            android:hint="@string/email"
+            android:layout_marginTop="15dp"
+            android:textSize="13sp"
+            android:textColor="@android:color/black"/>
+
+        <EditText
+            android:id="@+id/phoneET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_ets"
+            android:inputType="phone"
+            android:padding="6dp"
+            android:hint="@string/phone"
+            android:layout_marginTop="15dp"
+            android:textSize="13sp"
+            android:maxLength="10"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/payment_ranks"
+            android:layout_marginTop="15dp" />
+
+        <Spinner
+            android:id="@+id/paymentRanksSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:textSize="13sp"
+            android:layout_marginTop="5dp"
+            android:textColor="@android:color/black"
+            android:spinnerMode="dropdown" >
+        </Spinner>
+
+        <CheckBox
+            android:id="@+id/authorizeCB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/accept"/>
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/register_now"
+            android:textAllCaps="false"
+            android:theme="@style/btn_green"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

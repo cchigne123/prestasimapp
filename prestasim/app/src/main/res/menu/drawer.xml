@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_mobile"
+            android:icon="@drawable/ic_cellphone_black_24dp"
+            android:title="@string/mobile_developtment"/>
+        <item
+            android:id="@+id/nav_web"
+            android:icon="@drawable/ic_web_black_24dp"
+            android:title="@string/web_development"/>
+        <item
+            android:id="@+id/nav_cloud"
+            android:icon="@drawable/ic_cloud_tags_black_24dp"
+            android:title="@string/consulting"/>
+
+        <item
+            android:id="@+id/nav_close"
+            android:icon="@drawable/ic_close_black_24dp"
+            android:title="@string/close_session"/>
+    </group>
+
+</menu>
