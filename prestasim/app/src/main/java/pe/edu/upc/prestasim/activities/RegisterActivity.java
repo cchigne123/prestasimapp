@@ -36,6 +36,7 @@ import pe.edu.upc.prestasim.models.PaymentRank;
 import pe.edu.upc.prestasim.models.User;
 import pe.edu.upc.prestasim.network.BackendApi;
 import pe.edu.upc.prestasim.services.MasterService;
+import pe.edu.upc.prestasim.services.UserService;
 import pe.edu.upc.prestasim.utils.Constants;
 import pe.edu.upc.prestasim.utils.Utilities;
 
@@ -49,12 +50,14 @@ public class RegisterActivity extends AppCompatActivity {
     Map<Integer, Integer> spinnerMap;
     private ProgressDialog mProgressDialog;
     private MasterService masterService;
+    private UserService userService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         masterService = ((PrestasimApplication) getApplication()).getMasterService();
+        userService = ((PrestasimApplication) getApplication()).getUserService();
         initAndroidNetworking();
         loadUI();
         loadProgressDialog();
@@ -75,12 +78,14 @@ public class RegisterActivity extends AppCompatActivity {
                             Log.i(TAG, "response: " + response);
                             Type listType = new TypeToken<List<PaymentRank>>() {}.getType();
                             try {
-                                List<PaymentRank> paymentRankList = new Gson().fromJson
-                                        (response.getString("paymentRanks"), listType);
-                                for(PaymentRank paymentRank : paymentRankList){
-                                    masterService.savePaymentRank(paymentRank);
+                                if(BackendApi.API_OK_CODE.equals(response.getString("coderesult"))){
+                                    List<PaymentRank> paymentRankList = new Gson().fromJson
+                                            (response.getString("paymentRanks"), listType);
+                                    for (PaymentRank paymentRank : paymentRankList) {
+                                        masterService.savePaymentRank(paymentRank);
+                                    }
+                                    populatePaymentRanks(paymentRankList);
                                 }
-                                populatePaymentRanks(paymentRankList);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -111,7 +116,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void tryRegister(final View v) {
-        User user = new User()
+        final User user = new User()
                 .setName(nameET.getText().toString().trim())
                 .setAuthorization(authorizeCB.isChecked()?"1":"0")
                 .setBirth_date(birthDateET.getText().toString().trim())
@@ -135,9 +140,7 @@ public class RegisterActivity extends AppCompatActivity {
                             try {
                                 if(BackendApi.API_OK_CODE.equals(response.getString("coderesult"))){
                                     User createdUser = new Gson().fromJson(response.getString("user"), User.class);
-                                    Utilities.updateSharedPreferences(v.getContext(),
-                                            getString(R.string.preference_file_key),
-                                            createdUser.getId_user(), createdUser.getName(), createdUser.getEmail());
+                                    userService.saveUser(user);
                                     startActivity(new Intent(v.getContext(), MenuActivity.class));
                                 } else {
                                     Toast.makeText(RegisterActivity.this,

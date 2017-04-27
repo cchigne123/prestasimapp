@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import pe.edu.upc.prestasim.R;
+import pe.edu.upc.prestasim.activities.MenuActivity;
 
 public class WebFragment extends Fragment {
 
@@ -20,6 +21,7 @@ public class WebFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        ((MenuActivity) getActivity()).setActionBarTitle("Mi Informacion");
         mView = inflater.inflate(R.layout.fragment_web, container, false);
         return mView;
     }

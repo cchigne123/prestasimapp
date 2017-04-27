@@ -13,14 +13,16 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
+import pe.edu.upc.prestasim.PrestasimApplication;
 import pe.edu.upc.prestasim.R;
-import pe.edu.upc.prestasim.fragments.ConsultingFragment;
+import pe.edu.upc.prestasim.fragments.UserFragment;
 import pe.edu.upc.prestasim.fragments.MobileFragment;
 import pe.edu.upc.prestasim.fragments.WebFragment;
+import pe.edu.upc.prestasim.models.User;
+import pe.edu.upc.prestasim.services.UserService;
 import pe.edu.upc.prestasim.utils.Constants;
 import pe.edu.upc.prestasim.utils.Utilities;
 
@@ -29,22 +31,19 @@ public class MenuActivity extends AppCompatActivity
 
     private FragmentManager mSupportFragmentManager;
     private TextView nameLoggedUserTV, mailLoggedUserTV;
+    private UserService userService;
+    private User user;
     int lastPosition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences sharedPref = this.getSharedPreferences(getString
-                (R.string.preference_file_key), Context.MODE_PRIVATE);
-        if(sharedPref.getInt(Constants.CURRENT_USER_ID, 0) > 0) {
+        userService = ((PrestasimApplication) getApplication()).getUserService();
+        user = userService.obtainCurrentUser();
+        if(!Utilities.isNullOrEmpty(user)) {
             setContentView(R.layout.activity_menu);
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
-
-            nameLoggedUserTV = (TextView) findViewById(R.id.nameLoggedUserTV);
-            nameLoggedUserTV.setText(sharedPref.getString(Constants.CURRENT_USER_NAME, ""));
-            mailLoggedUserTV = (TextView) findViewById(R.id.mailLoggedUserTV);
-            mailLoggedUserTV.setText(sharedPref.getString(Constants.CURRENT_USER_MAIL, ""));
 
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -56,6 +55,12 @@ public class MenuActivity extends AppCompatActivity
             navigationView.setNavigationItemSelectedListener(this);
             navigationView.setCheckedItem(R.id.nav_mobile);
             mSupportFragmentManager = getSupportFragmentManager();
+
+            View headerView = navigationView.inflateHeaderView(R.layout.nav_header_menu);
+            nameLoggedUserTV = (TextView) headerView.findViewById(R.id.nameLoggedUserTV);
+            nameLoggedUserTV.setText(user.getName());
+            mailLoggedUserTV = (TextView) headerView.findViewById(R.id.mailLoggedUserTV);
+            mailLoggedUserTV.setText(user.getEmail());
             displayOption(R.id.nav_mobile);
         } else {
             startActivity(new Intent(this, MainActivity.class));
@@ -94,7 +99,7 @@ public class MenuActivity extends AppCompatActivity
                 fragment = WebFragment.newInstance();
                 break;
             case R.id.nav_cloud:
-                fragment = ConsultingFragment.newInstance();
+                fragment = UserFragment.newInstance();
                 break;
             case R.id.nav_close:
                 closeSession();
@@ -108,8 +113,11 @@ public class MenuActivity extends AppCompatActivity
     }
 
     private void closeSession(){
-        Utilities.updateSharedPreferences
-                (this, getString(R.string.preference_file_key), 0, null, null);
+        userService.deleteUser(user);
         startActivity(new Intent(this, MainActivity.class));
+    }
+
+    public void setActionBarTitle(String title){
+        getActionBar().setTitle(title);
     }
 }

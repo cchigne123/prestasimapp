@@ -14,6 +14,12 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="btn_gray" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/gray</item>
+        <item name="colorButtonNormal">@color/gray_light</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>

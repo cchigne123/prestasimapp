@@ -34,16 +34,4 @@ public class Utilities {
         return true;
     }
 
-    public static void updateSharedPreferences
-            (Context context, String preferencesFileKey,
-             int idUser, String name, String mail){
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                preferencesFileKey, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt(Constants.CURRENT_USER_ID, idUser);
-        editor.putString(Constants.CURRENT_USER_NAME, name);
-        editor.putString(Constants.CURRENT_USER_MAIL, mail);
-        editor.commit();
-    }
-
 }

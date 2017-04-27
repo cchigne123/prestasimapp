@@ -1,22 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:focusableInTouchMode="false"
-    android:orientation="vertical"
-    tools:context="pe.edu.upc.prestasim.activities.RegisterActivity">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:text="@string/register"
-        android:textColor="@android:color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -28,6 +15,12 @@
             android:orientation="vertical"
             android:padding="25dp">
 
+            <TextView
+                android:id="@+id/dniTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dni" />
+
             <EditText
                 android:id="@+id/nameET"
                 android:layout_width="match_parent"
@@ -37,19 +30,7 @@
                 android:padding="6dp"
                 android:textSize="13sp"
                 android:hint="@string/name"
-                android:textColor="@android:color/black"/>
-
-            <EditText
-                android:id="@+id/dniET"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_ets"
-                android:inputType="number"
-                android:maxLength="8"
-                android:padding="6dp"
-                android:textSize="13sp"
                 android:layout_marginTop="15dp"
-                android:hint="@string/dni"
                 android:textColor="@android:color/black"/>
 
             <EditText
@@ -117,23 +98,30 @@
                 android:textColor="@android:color/black"
                 android:spinnerMode="dropdown" >
             </Spinner>
-
-            <CheckBox
-                android:id="@+id/authorizeCB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:checked="true"
-                android:text="@string/accept"/>
-
-            <Button
-                android:id="@+id/btnRegister"
+            <GridLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/register_now"
-                android:textAllCaps="false"
-                android:theme="@style/btn_green"/>
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btnUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/update"
+                    android:textAllCaps="false"
+                    android:theme="@style/btn_green"/>
+
+                <Button
+                    android:id="@+id/btnReset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/cancel"
+                    android:textAllCaps="false"
+                    android:theme="@style/btn_gray"
+                    android:layout_gravity="right" />
+
+            </GridLayout>
 
         </LinearLayout>
 

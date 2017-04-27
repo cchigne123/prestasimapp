@@ -8,19 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import pe.edu.upc.prestasim.R;
+import pe.edu.upc.prestasim.activities.MenuActivity;
 
-public class ConsultingFragment extends Fragment {
+public class UserFragment extends Fragment {
 
     private View mView;
 
-    public static ConsultingFragment newInstance() {
-        return new ConsultingFragment();
+    public static UserFragment newInstance() {
+        return new UserFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_consulting, container, false);
+        ((MenuActivity) getActivity()).setActionBarTitle("Nueva Solicitud");
+        mView = inflater.inflate(R.layout.fragment_user, container, false);
         return mView;
     }
 

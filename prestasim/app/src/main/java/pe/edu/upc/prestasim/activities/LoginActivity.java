@@ -24,9 +24,11 @@ import org.json.JSONObject;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import pe.edu.upc.prestasim.PrestasimApplication;
 import pe.edu.upc.prestasim.R;
 import pe.edu.upc.prestasim.models.User;
 import pe.edu.upc.prestasim.network.BackendApi;
+import pe.edu.upc.prestasim.services.UserService;
 import pe.edu.upc.prestasim.utils.Constants;
 import pe.edu.upc.prestasim.utils.Utilities;
 
@@ -36,11 +38,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText etDNI, etPassword;
     private ProgressDialog mProgressDialog;
+    private UserService userService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        userService = ((PrestasimApplication) getApplication()).getUserService();
         initAndroidNetworking();
         loadUI();
         loadProgressDialog();
@@ -63,9 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                             try {
                                 if(BackendApi.API_OK_CODE.equals(response.getString("coderesult"))){
                                     User user = new Gson().fromJson(response.getString("user"),User.class);
-                                    Utilities.updateSharedPreferences(v.getContext(),
-                                            getString(R.string.preference_file_key),
-                                            user.getId_user(), user.getName(), user.getEmail());
+                                    userService.saveUser(user);
                                     startActivity(new Intent(v.getContext(), MenuActivity.class));
                                 } else {
                                     Toast.makeText(LoginActivity.this,

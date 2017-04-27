@@ -12,23 +12,27 @@ public class PaymentRank extends SugarRecord {
     private String name;
     private Double max_value;
 
+
     public int getId_payment_rank() {
         return id_payment_rank;
     }
-    public void setId_payment_rank(int idPaymentRank) {
+    public PaymentRank setId_payment_rank(int idPaymentRank) {
         this.id_payment_rank = idPaymentRank;
+        return this;
     }
     public String getName() {
         return name;
     }
-    public void setName(String name) {
+    public PaymentRank setName(String name) {
         this.name = name;
+        return this;
     }
     public Double getMax_value() {
         return max_value;
     }
-    public void setMax_value(Double maxValue) {
+    public PaymentRank setMax_value(Double maxValue) {
         this.max_value = maxValue;
+        return this;
     }
 
 }

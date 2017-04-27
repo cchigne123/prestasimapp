@@ -1,12 +1,14 @@
 package pe.edu.upc.prestasim.models;
 
+import com.orm.SugarRecord;
+
 import pe.edu.upc.prestasim.R;
 import pe.edu.upc.prestasim.utils.Utilities;
 
 /**
  * Created by Cesar on 23/04/2017.
  */
-public class User {
+public class User extends SugarRecord {
 
     private Integer id_user;
     private String name;
@@ -17,6 +19,8 @@ public class User {
     private String birth_date;
     private Integer id_payment_rank;
     private String authorization;
+
+    public User(){}
 
     public Integer getId_user() {
         return id_user;
