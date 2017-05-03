@@ -10,19 +10,19 @@ import android.view.ViewGroup;
 import pe.edu.upc.prestasim.R;
 import pe.edu.upc.prestasim.activities.MenuActivity;
 
-public class WebFragment extends Fragment {
+public class HistoryFragment extends Fragment {
 
     private View mView;
 
-    public static WebFragment newInstance() {
-        return new WebFragment();
+    public static HistoryFragment newInstance() {
+        return new HistoryFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((MenuActivity) getActivity()).setActionBarTitle("Mi Informacion");
-        mView = inflater.inflate(R.layout.fragment_web, container, false);
+        mView = inflater.inflate(R.layout.fragment_history, container, false);
         return mView;
     }
 

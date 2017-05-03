@@ -1,8 +1,7 @@
 package pe.edu.upc.prestasim.activities;
 
-import android.content.Context;
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,11 +18,10 @@ import android.widget.TextView;
 import pe.edu.upc.prestasim.PrestasimApplication;
 import pe.edu.upc.prestasim.R;
 import pe.edu.upc.prestasim.fragments.UserFragment;
-import pe.edu.upc.prestasim.fragments.MobileFragment;
-import pe.edu.upc.prestasim.fragments.WebFragment;
+import pe.edu.upc.prestasim.fragments.RequestFragment;
+import pe.edu.upc.prestasim.fragments.HistoryFragment;
 import pe.edu.upc.prestasim.models.User;
 import pe.edu.upc.prestasim.services.UserService;
-import pe.edu.upc.prestasim.utils.Constants;
 import pe.edu.upc.prestasim.utils.Utilities;
 
 public class MenuActivity extends AppCompatActivity
@@ -33,6 +31,7 @@ public class MenuActivity extends AppCompatActivity
     private TextView nameLoggedUserTV, mailLoggedUserTV;
     private UserService userService;
     private User user;
+    private ProgressDialog mProgressDialog;
     int lastPosition = -1;
 
     @Override
@@ -53,7 +52,7 @@ public class MenuActivity extends AppCompatActivity
 
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
-            navigationView.setCheckedItem(R.id.nav_mobile);
+            navigationView.setCheckedItem(R.id.nav_new_request);
             mSupportFragmentManager = getSupportFragmentManager();
 
             View headerView = navigationView.inflateHeaderView(R.layout.nav_header_menu);
@@ -61,7 +60,8 @@ public class MenuActivity extends AppCompatActivity
             nameLoggedUserTV.setText(user.getName());
             mailLoggedUserTV = (TextView) headerView.findViewById(R.id.mailLoggedUserTV);
             mailLoggedUserTV.setText(user.getEmail());
-            displayOption(R.id.nav_mobile);
+            displayOption(R.id.nav_new_request);
+            loadProgressDialog();
         } else {
             startActivity(new Intent(this, MainActivity.class));
             finish();
@@ -92,13 +92,13 @@ public class MenuActivity extends AppCompatActivity
     private void displayOption(int id) {
         Fragment fragment = null;
         switch (id) {
-            case R.id.nav_mobile:
-                fragment = MobileFragment.newInstance();
+            case R.id.nav_new_request:
+                fragment = RequestFragment.newInstance();
                 break;
-            case R.id.nav_web:
-                fragment = WebFragment.newInstance();
+            case R.id.nav_history_request:
+                fragment = HistoryFragment.newInstance();
                 break;
-            case R.id.nav_cloud:
+            case R.id.nav_my_info:
                 fragment = UserFragment.newInstance();
                 break;
             case R.id.nav_close:
@@ -118,6 +118,20 @@ public class MenuActivity extends AppCompatActivity
     }
 
     public void setActionBarTitle(String title){
-        getActionBar().setTitle(title);
+        if(getActionBar() != null){
+            getActionBar().setTitle(title);
+        } else {
+            getSupportActionBar().setTitle(title);
+        }
     }
+
+    private void loadProgressDialog() {
+        mProgressDialog = new ProgressDialog(MenuActivity.this);
+        mProgressDialog.setMessage(getResources().getString(R.string.loading));
+    }
+
+    public void showDialog(){
+
+    }
+
 }

@@ -3,17 +3,17 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_mobile"
+            android:id="@+id/nav_new_request"
             android:icon="@drawable/ic_cellphone_black_24dp"
-            android:title="@string/mobile_developtment"/>
+            android:title="@string/new_request"/>
         <item
-            android:id="@+id/nav_web"
+            android:id="@+id/nav_history_request"
             android:icon="@drawable/ic_web_black_24dp"
-            android:title="@string/web_development"/>
+            android:title="@string/history_request"/>
         <item
-            android:id="@+id/nav_cloud"
+            android:id="@+id/nav_my_info"
             android:icon="@drawable/ic_cloud_tags_black_24dp"
-            android:title="@string/consulting"/>
+            android:title="@string/my_info"/>
 
         <item
             android:id="@+id/nav_close"

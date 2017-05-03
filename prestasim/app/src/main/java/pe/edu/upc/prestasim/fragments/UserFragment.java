@@ -21,7 +21,7 @@ public class UserFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ((MenuActivity) getActivity()).setActionBarTitle("Nueva Solicitud");
+        ((MenuActivity) getActivity()).setActionBarTitle("Mi Información");
         mView = inflater.inflate(R.layout.fragment_user, container, false);
         return mView;
     }

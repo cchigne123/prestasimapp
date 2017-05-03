@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="25dp">
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rowCount="1"
+                android:columnCount="2"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/loan_type" />
+
+                <Spinner
+                    android:id="@+id/loanTypeSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:textSize="13sp"
+                    android:layout_gravity="right"
+                    android:textColor="@android:color/black"
+                    android:spinnerMode="dropdown" />
+
+            </GridLayout>
+
+            <EditText
+                android:id="@+id/amountET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_ets"
+                android:inputType="text"
+                android:padding="6dp"
+                android:textSize="13sp"
+                android:layout_marginTop="15dp"
+                android:hint="@string/amount_hint"
+                android:textColor="@android:color/black"/>
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rowCount="1"
+                android:columnCount="2"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/installment" />
+
+                <Spinner
+                    android:id="@+id/installmentSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:textSize="13sp"
+                    android:layout_gravity="right"
+                    android:textColor="@android:color/black"
+                    android:spinnerMode="dropdown" />
+
+            </GridLayout>
+
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/register_btn"
+                android:textAllCaps="false"
+                android:theme="@style/btn_green" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

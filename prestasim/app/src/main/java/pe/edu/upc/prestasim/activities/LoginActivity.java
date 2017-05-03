@@ -1,9 +1,7 @@
 package pe.edu.upc.prestasim.activities;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,8 +27,6 @@ import pe.edu.upc.prestasim.R;
 import pe.edu.upc.prestasim.models.User;
 import pe.edu.upc.prestasim.network.BackendApi;
 import pe.edu.upc.prestasim.services.UserService;
-import pe.edu.upc.prestasim.utils.Constants;
-import pe.edu.upc.prestasim.utils.Utilities;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -56,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         if (!dni.isEmpty() && !password.isEmpty()) {
             showLoader();
             AndroidNetworking.post(BackendApi.LOGIN)
-                    .addJSONObjectBody(BackendApi.createLoginRequest(dni, password))
+                    .addJSONObjectBody(BackendApi.createLoginReq(dni, password))
                     .setPriority(Priority.HIGH)
                     .build()
                     .getAsJSONObject(new JSONObjectRequestListener() {

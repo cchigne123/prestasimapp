@@ -37,7 +37,6 @@ import pe.edu.upc.prestasim.models.User;
 import pe.edu.upc.prestasim.network.BackendApi;
 import pe.edu.upc.prestasim.services.MasterService;
 import pe.edu.upc.prestasim.services.UserService;
-import pe.edu.upc.prestasim.utils.Constants;
 import pe.edu.upc.prestasim.utils.Utilities;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -129,7 +128,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (Utilities.isNullOrEmpty(validationMessage)) {
             showLoader();
             AndroidNetworking.post(BackendApi.USERS)
-                    .addJSONObjectBody(BackendApi.createRegisterUserRequest(user))
+                    .addJSONObjectBody(BackendApi.createRegisterUserReq(user))
                     .setPriority(Priority.HIGH)
                     .build()
                     .getAsJSONObject(new JSONObjectRequestListener() {
