@@ -18,16 +18,14 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pe.edu.upc.prestasim.PrestasimApplication;
 import pe.edu.upc.prestasim.R;
 import pe.edu.upc.prestasim.activities.MenuActivity;
 import pe.edu.upc.prestasim.adapters.RequestAdapter;
-import pe.edu.upc.prestasim.adapters.RequestResultAdapter;
-import pe.edu.upc.prestasim.models.PaymentRank;
 import pe.edu.upc.prestasim.models.Request;
-import pe.edu.upc.prestasim.models.RequestTax;
 import pe.edu.upc.prestasim.models.User;
 import pe.edu.upc.prestasim.network.BackendApi;
 import pe.edu.upc.prestasim.services.MasterService;
@@ -53,8 +51,8 @@ public class HistoryFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_history, container, false);
         ((MenuActivity) getActivity()).setActionBarTitle(getString(R.string.history_request_desc));
+        mView = inflater.inflate(R.layout.fragment_history, container, false);
 
         // Initialize
         userService = ((PrestasimApplication) getActivity().getApplication()).getUserService();
@@ -63,7 +61,15 @@ public class HistoryFragment extends Fragment {
         requestsRecyclerView = (RecyclerView) mView.findViewById(R.id.requestsRecyclerView);
         requestAdapter = new RequestAdapter();
         requestLayoutManager = new LinearLayoutManager(mView.getContext());
+        requests = new ArrayList<>();
+        requestAdapter.setRequests(requests);
+        requestsRecyclerView.setLayoutManager(requestLayoutManager);
+        requestsRecyclerView.setAdapter(requestAdapter);
+        updateRequests();
+        return mView;
+    }
 
+    private void updateRequests() {
         // Values
         User user = userService.obtainCurrentUser();
         requests = requestService.obtainRequestsByUserId(user.getIdUser());
@@ -77,12 +83,14 @@ public class HistoryFragment extends Fragment {
                             Log.i(TAG, "response: " + response);
                             try {
                                 if(BackendApi.API_OK_CODE.equals(response.getString("coderesult"))){
-                                    List<Request> requests = Request.build
+                                    List<Request> requestsFromApi = Request.build
                                             (response.getJSONArray("requests"));
-                                    for (Request request : requests) {
+                                    for (Request request : requestsFromApi) {
                                         requestService.registerRequest(request);
                                     }
-                                    fillRequests(requests);
+                                    requests = requestsFromApi;
+                                    requestAdapter.setRequests(requests);
+                                    requestAdapter.notifyDataSetChanged();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -95,20 +103,9 @@ public class HistoryFragment extends Fragment {
                         }
                     });
         } else {
-            initializeRecyclerView();
+            requestAdapter.setRequests(requests);
+            requestAdapter.notifyDataSetChanged();
         }
-        return mView;
-    }
-
-    private void fillRequests(List<Request> requests) {
-        this.requests = requests;
-        initializeRecyclerView();
-    }
-
-    private void initializeRecyclerView() {
-        requestAdapter.setRequests(requests);
-        requestsRecyclerView.setLayoutManager(requestLayoutManager);
-        requestsRecyclerView.setAdapter(requestAdapter);
     }
 
 }

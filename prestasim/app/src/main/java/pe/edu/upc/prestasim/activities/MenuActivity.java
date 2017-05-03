@@ -34,6 +34,7 @@ public class MenuActivity extends AppCompatActivity
     private User user;
     private ProgressDialog mProgressDialog;
     int lastPosition = -1;
+    private static String TAG = "Prestasim - MenuActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +75,8 @@ public class MenuActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
+        getFragmentManager().popBackStack();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -109,7 +109,9 @@ public class MenuActivity extends AppCompatActivity
 
         if (fragment != null && lastPosition != id) {
             mSupportFragmentManager.beginTransaction()
-                    .replace(R.id.flContent, fragment).commit();
+                    .replace(R.id.flContent, fragment)
+                    .addToBackStack(TAG)
+                    .commit();
         }
     }
 

@@ -16,8 +16,8 @@ import pe.edu.upc.prestasim.models.User;
 
 public class BackendApi {
 
-    //private static final String API_BASE = "http://movilesupc.ddns.net:7001/prestasim/";
-    private static final String API_BASE = "http://192.168.1.4:7001/prestasim/";
+//    private static final String API_BASE = "http://movilesupc.ddns.net:7001/prestasim/";
+    private static final String API_BASE = "http://192.168.5.71:7101/prestasim/";
     public static final String LOGIN = API_BASE + "login";
     public static final String USERS = API_BASE + "usuarios";
     public static final String PAYMENT_RANKS = API_BASE + "paymentRanks";

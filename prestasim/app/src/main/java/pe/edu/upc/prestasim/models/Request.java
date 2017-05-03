@@ -6,12 +6,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.SimpleTimeZone;
 
 import pe.edu.upc.prestasim.utils.Constants;
 
@@ -27,6 +25,8 @@ public class Request extends SugarRecord {
     private Integer installments;
     private String registerDate;
     private Integer idLoanType;
+
+    private String loanTypeName;
 
     public Integer getIdRequest() {
         return idRequest;
@@ -73,6 +73,14 @@ public class Request extends SugarRecord {
         return this;
     }
 
+    public String getLoanTypeName() {
+        return loanTypeName;
+    }
+
+    public void setLoanTypeName(String loanTypeName) {
+        this.loanTypeName = loanTypeName;
+    }
+
     public static Request build(JSONObject jsonObject){
         if(jsonObject == null) return null;
         Request request = new Request();
@@ -85,6 +93,9 @@ public class Request extends SugarRecord {
                     .setInstallments(jsonObject.getInt("installments"))
                     .setRegisterDate(simpleDateFormat.format(new Date
                             (jsonObject.getLong("register_date"))));
+            if(jsonObject.has("loanTypeName")){
+                request.setLoanTypeName(jsonObject.getString("loanTypeName"));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

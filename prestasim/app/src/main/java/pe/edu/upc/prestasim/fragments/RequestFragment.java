@@ -114,10 +114,16 @@ public class RequestFragment extends Fragment {
                                 requestService.registerRequest(newRequest);
                                 List<RequestTax> options = RequestTax.build
                                         (response.getJSONObject("request").getJSONArray("options"));
-                                for(RequestTax option : options){
-                                    requestService.registerRequestTax(option);
+                                if(options == null || options.isEmpty()){
+                                    Toast.makeText(getView().getContext(),
+                                            getString(R.string.reg_err_empty_options_request),
+                                            Toast.LENGTH_LONG).show();
+                                } else {
+                                    for (RequestTax option : options) {
+                                        requestService.registerRequestTax(option);
+                                    }
+                                    ((MenuActivity) getActivity()).openResultFragment(newRequest.getIdRequest());
                                 }
-                                ((MenuActivity) getActivity()).openResultFragment(newRequest.getIdRequest());
                             } else {
                                 Toast.makeText(getView().getContext(),
                                         response.getString("msgresult"), Toast.LENGTH_LONG).show();

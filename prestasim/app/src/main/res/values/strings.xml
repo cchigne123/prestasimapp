@@ -52,5 +52,7 @@
 
     <!-- messages -->
     <string name="reg_err_empty_amount">Por favor ingrese un monto solicitado</string>
+    <string name="reg_err_empty_options_request">No hay entidades que otorguen
+        préstamos con las características elegidas</string>
 
 </resources>
