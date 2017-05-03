@@ -1,7 +1,6 @@
 package pe.edu.upc.prestasim.fragments;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,13 +18,10 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +29,6 @@ import java.util.Map;
 import pe.edu.upc.prestasim.PrestasimApplication;
 import pe.edu.upc.prestasim.R;
 import pe.edu.upc.prestasim.activities.MenuActivity;
-import pe.edu.upc.prestasim.activities.RegisterActivity;
 import pe.edu.upc.prestasim.models.LoanType;
 import pe.edu.upc.prestasim.models.Request;
 import pe.edu.upc.prestasim.models.RequestTax;
@@ -66,6 +61,7 @@ public class RequestFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_request, container, false);
 
+        ((MenuActivity) getActivity()).setActionBarTitle(getString(R.string.request_results_desc));
         masterService = ((PrestasimApplication) getActivity().getApplication()).getMasterService();
         userService = ((PrestasimApplication) getActivity().getApplication()).getUserService();
         requestService = ((PrestasimApplication) getActivity().getApplication()).getRequestService();
@@ -74,6 +70,7 @@ public class RequestFragment extends Fragment {
         installmentSpinner = (Spinner) mView.findViewById(R.id.installmentSpinner);
         btnRegister = (Button) mView.findViewById(R.id.btnRegister);
         mProgressDialog = new ProgressDialog(mView.getContext());
+        mProgressDialog.setMessage(getResources().getString(R.string.loading));
         user = userService.obtainCurrentUser();
         fillLoanTypes();
         populateCommitments();
@@ -86,8 +83,8 @@ public class RequestFragment extends Fragment {
                 if(!Utilities.isNullOrEmpty(amount)){
                     Request request = new Request()
                             .setAmount(Double.parseDouble(amount))
-                            .setId_loan_type(spinnerMap.get(loanTypeSpinner.getSelectedItemPosition()))
-                            .setId_user(user.getId_user())
+                            .setIdLoanType(spinnerMap.get(loanTypeSpinner.getSelectedItemPosition()))
+                            .setIdUser(user.getIdUser())
                             .setInstallments(Integer.valueOf(installment));
                     registerRequestOnApi(request);
                 } else {
@@ -102,7 +99,7 @@ public class RequestFragment extends Fragment {
 
     private void registerRequestOnApi(Request request) {
         showLoader();
-        AndroidNetworking.post(BackendApi.generateRegisterRequestUrl(request))
+        AndroidNetworking.post(BackendApi.generateRequestsUrl(request.getIdUser()))
                 .addJSONObjectBody(BackendApi.createRegisterRequestReq(request))
                 .setPriority(Priority.HIGH)
                 .build()
@@ -112,18 +109,15 @@ public class RequestFragment extends Fragment {
                         hideLoader();
                         Log.i(getString(R.string.tag), "response: " + response);
                         try {
-                            Type listType = new TypeToken<List<RequestTax>>() {}.getType();
                             if(BackendApi.API_OK_CODE.equals(response.getString("coderesult"))){
-                                Request newRequest = new Gson()
-                                        .fromJson(response.getString("request"), Request.class);
+                                Request newRequest = Request.build(response.getJSONObject("request"));
                                 requestService.registerRequest(newRequest);
-                                List<RequestTax> options = new Gson()
-                                        .fromJson(response.getJSONObject("request")
-                                                .getString("options"), listType);
+                                List<RequestTax> options = RequestTax.build
+                                        (response.getJSONObject("request").getJSONArray("options"));
                                 for(RequestTax option : options){
                                     requestService.registerRequestTax(option);
                                 }
-                                showRequestOptions(options);
+                                ((MenuActivity) getActivity()).openResultFragment(newRequest.getIdRequest());
                             } else {
                                 Toast.makeText(getView().getContext(),
                                         response.getString("msgresult"), Toast.LENGTH_LONG).show();
@@ -139,10 +133,6 @@ public class RequestFragment extends Fragment {
                         Log.e(getString(R.string.tag), "error: " + anError.toString());
                     }
                 });
-    }
-
-    private void showRequestOptions(List<RequestTax> options) {
-
     }
 
     private void populateCommitments() {
@@ -164,11 +154,10 @@ public class RequestFragment extends Fragment {
                         public void onResponse(JSONObject response) {
                             hideLoader();
                             Log.i(getString(R.string.tag), "response: " + response);
-                            Type listType = new TypeToken<List<LoanType>>() {}.getType();
                             try {
                                 if(BackendApi.API_OK_CODE.equals(response.getString("coderesult"))){
-                                    List<LoanType> types = new Gson().fromJson
-                                            (response.getString("loanTypes"), listType);
+                                    List<LoanType> types = LoanType.build
+                                            (response.getJSONArray("loanTypes"));
                                     for (LoanType type : types) {
                                         masterService.saveLoanType(type);
                                     }
@@ -195,7 +184,7 @@ public class RequestFragment extends Fragment {
         spinnerMap = new HashMap<>();
         for(int i=0;i<types.size();i++){
             LoanType type = types.get(i);
-            spinnerMap.put(i, type.getId_loan_type());
+            spinnerMap.put(i, type.getIdLoanType());
             spinnerArray[i] = type.getName();
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, spinnerArray);

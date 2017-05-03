@@ -2,8 +2,18 @@ package pe.edu.upc.prestasim.models;
 
 import com.orm.SugarRecord;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
+
+import pe.edu.upc.prestasim.utils.Constants;
 
 /**
  * Created by cesar.chigne on 5/2/2017.
@@ -11,25 +21,25 @@ import java.util.List;
 
 public class Request extends SugarRecord {
 
-    private Integer id_request;
-    private Integer id_user;
+    private Integer idRequest;
+    private Integer idUser;
     private Double amount;
     private Integer installments;
-    private Date registerDate;
-    private Integer id_loan_type;
+    private String registerDate;
+    private Integer idLoanType;
 
-    public Integer getId_request() {
-        return id_request;
+    public Integer getIdRequest() {
+        return idRequest;
     }
-    public Request setId_request(Integer idsolicitud) {
-        this.id_request = idsolicitud;
+    public Request setIdRequest(Integer idsolicitud) {
+        this.idRequest = idsolicitud;
         return this;
     }
-    public Integer getId_user() {
-        return id_user;
+    public Integer getIdUser() {
+        return idUser;
     }
-    public Request setId_user(Integer idusuario) {
-        this.id_user = idusuario;
+    public Request setIdUser(Integer idusuario) {
+        this.idUser = idusuario;
         return this;
     }
     public Double getAmount() {
@@ -46,19 +56,51 @@ public class Request extends SugarRecord {
         this.installments = plazo;
         return this;
     }
-    public Integer getId_loan_type() {
-        return id_loan_type;
+    public Integer getIdLoanType() {
+        return idLoanType;
     }
-    public Request setId_loan_type(Integer idtipoprestamo) {
-        this.id_loan_type = idtipoprestamo;
+    public Request setIdLoanType(Integer idtipoprestamo) {
+        this.idLoanType = idtipoprestamo;
         return this;
     }
 
-    public Date getRegisterDate() {
+    public String getRegisterDate() {
         return registerDate;
     }
 
-    public void setRegisterDate(Date registerDate) {
+    public Request setRegisterDate(String registerDate) {
         this.registerDate = registerDate;
+        return this;
+    }
+
+    public static Request build(JSONObject jsonObject){
+        if(jsonObject == null) return null;
+        Request request = new Request();
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
+            request.setIdRequest(jsonObject.getInt("id_request"))
+                    .setAmount(jsonObject.getDouble("amount"))
+                    .setIdLoanType(jsonObject.getInt("id_loan_type"))
+                    .setIdUser(jsonObject.getInt("id_user"))
+                    .setInstallments(jsonObject.getInt("installments"))
+                    .setRegisterDate(simpleDateFormat.format(new Date
+                            (jsonObject.getLong("register_date"))));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return request;
+    }
+
+    public static List<Request> build(JSONArray jsonArray){
+        if(jsonArray == null) return null;
+        List<Request> requests = new ArrayList<>();
+        for(int i=0; i<jsonArray.length(); i++){
+            try {
+                requests.add(Request.build(jsonArray.getJSONObject(i)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return requests;
     }
 }

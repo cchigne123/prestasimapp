@@ -1,5 +1,6 @@
 package pe.edu.upc.prestasim.services;
 
+import com.orm.query.Condition;
 import com.orm.query.Select;
 
 import java.util.List;
@@ -27,6 +28,10 @@ public class MasterService {
 
     public boolean saveLoanType(LoanType loanType){
         return loanType.save() > 0;
+    }
+
+    public LoanType obtainLoanTypeById(Integer id_loan_type){
+        return Select.from(LoanType.class).where(Condition.prop("id_loan_type").eq(id_loan_type)).first();
     }
 
 }

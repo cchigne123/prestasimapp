@@ -71,7 +71,7 @@
                 android:background="@drawable/background_ets"
                 android:inputType="date"
                 android:padding="6dp"
-                android:hint="@string/birth_date"
+                android:hint="@string/birthDate"
                 android:layout_marginTop="15dp"
                 android:textSize="13sp"
                 android:textColor="@android:color/black"/>

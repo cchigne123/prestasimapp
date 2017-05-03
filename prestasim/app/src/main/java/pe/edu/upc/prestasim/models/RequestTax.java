@@ -2,47 +2,87 @@ package pe.edu.upc.prestasim.models;
 
 import com.orm.SugarRecord;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by cesar.chigne on 5/2/2017.
  */
 
 public class RequestTax extends SugarRecord {
 
-    private int id_request;
-    private int id_tax;
-    private Double installment_amount;
-    private Double initial_payment;
+    private int idRequest;
+    private int idTax;
+    private Double installmentAmount;
+    private Double initialPayment;
     private String entityName;
 
-    public int getId_request() {
-        return id_request;
+    public int getIdRequest() {
+        return idRequest;
     }
-    public void setId_request(int idsolicitud) {
-        this.id_request = idsolicitud;
+    public RequestTax setIdRequest(int idsolicitud) {
+        this.idRequest = idsolicitud;
+        return this;
     }
-    public int getId_tax() {
-        return id_tax;
+    public int getIdTax() {
+        return idTax;
     }
-    public void setId_tax(int idtasa) {
-        this.id_tax = idtasa;
+    public RequestTax setIdTax(int idtasa) {
+        this.idTax = idtasa;
+        return this;
     }
-    public Double getInstallment_amount() {
-        return installment_amount;
+    public Double getInstallmentAmount() {
+        return installmentAmount;
     }
-    public void setInstallment_amount(Double montocuota) {
-        this.installment_amount = montocuota;
+    public RequestTax setInstallmentAmount(Double montocuota) {
+        this.installmentAmount = montocuota;
+        return this;
     }
-    public Double getInitial_payment() {
-        return initial_payment;
+    public Double getInitialPayment() {
+        return initialPayment;
     }
-    public void setInitial_payment(Double cuotainicial) {
-        this.initial_payment = cuotainicial;
+    public RequestTax setInitialPayment(Double cuotainicial) {
+        this.initialPayment = cuotainicial;
+        return this;
     }
     public String getEntityName() {
         return entityName;
     }
-    public void setEntityName(String nomentidad) {
+    public RequestTax setEntityName(String nomentidad) {
         this.entityName = nomentidad;
+        return this;
+    }
+
+    public static RequestTax build(JSONObject jsonObject){
+        if(jsonObject == null) return null;
+        RequestTax requestTax = new RequestTax();
+        try {
+            requestTax.setEntityName(jsonObject.getString("entityName"))
+                    .setIdRequest(jsonObject.getInt("id_request"))
+                    .setIdTax(jsonObject.getInt("id_tax"))
+                    .setInitialPayment(jsonObject.getDouble("initial_payment"))
+                    .setInstallmentAmount(jsonObject.getDouble("installment_amount"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return requestTax;
+    }
+
+    public static List<RequestTax> build(JSONArray jsonArray){
+        if(jsonArray == null) return null;
+        List<RequestTax> taxes = new ArrayList<>();
+        for(int i=0; i<jsonArray.length(); i++){
+            try {
+                taxes.add(RequestTax.build(jsonArray.getJSONObject(i)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return taxes;
     }
 
 }

@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                             Log.i(TAG, "response: " + response);
                             try {
                                 if(BackendApi.API_OK_CODE.equals(response.getString("coderesult"))){
-                                    User user = new Gson().fromJson(response.getString("user"),User.class);
+                                    User user = User.build(response.getJSONObject("user"));
                                     userService.saveUser(user);
                                     startActivity(new Intent(v.getContext(), MenuActivity.class));
                                 } else {

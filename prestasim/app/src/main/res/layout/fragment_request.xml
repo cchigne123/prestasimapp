@@ -15,8 +15,24 @@
             android:orientation="vertical"
             android:padding="25dp">
 
-            <GridLayout
+            <TextView
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/amount_hint" />
+
+            <EditText
+                android:id="@+id/amountET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_ets"
+                android:inputType="number"
+                android:padding="6dp"
+                android:textSize="13sp"
+                android:layout_marginTop="5dp"
+                android:textColor="@android:color/black"/>
+
+            <GridLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:rowCount="1"
                 android:columnCount="2"
@@ -39,33 +55,21 @@
 
             </GridLayout>
 
-            <EditText
-                android:id="@+id/amountET"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_ets"
-                android:inputType="text"
-                android:padding="6dp"
-                android:textSize="13sp"
-                android:layout_marginTop="15dp"
-                android:hint="@string/amount_hint"
-                android:textColor="@android:color/black"/>
-
             <GridLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:rowCount="1"
                 android:columnCount="2"
                 android:layout_marginTop="15dp">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/installment" />
 
                 <Spinner
                     android:id="@+id/installmentSpinner"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="6dp"
                     android:textSize="13sp"
@@ -80,7 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
-                android:text="@string/register_btn"
+                android:text="@string/simulate_btn"
                 android:textAllCaps="false"
                 android:theme="@style/btn_green" />
 

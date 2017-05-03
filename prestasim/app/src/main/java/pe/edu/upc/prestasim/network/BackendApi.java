@@ -17,7 +17,7 @@ import pe.edu.upc.prestasim.models.User;
 public class BackendApi {
 
     //private static final String API_BASE = "http://movilesupc.ddns.net:7001/prestasim/";
-    private static final String API_BASE = "http://192.168.5.71:7101/prestasim/";
+    private static final String API_BASE = "http://192.168.1.4:7001/prestasim/";
     public static final String LOGIN = API_BASE + "login";
     public static final String USERS = API_BASE + "usuarios";
     public static final String PAYMENT_RANKS = API_BASE + "paymentRanks";
@@ -38,32 +38,37 @@ public class BackendApi {
     }
 
     public static JSONObject createRegisterUserReq(User user){
-        Gson gson = new Gson();
-        String jsonString = gson.toJson(user);
-        Log.i(TAG, jsonString);
         JSONObject requestObject = new JSONObject();
         try {
-            requestObject = new JSONObject(jsonString);
+            requestObject.put("name", user.getName());
+            requestObject.put("authorization", user.getAuthorization());
+            requestObject.put("birth_date", user.getBirthDate());
+            requestObject.put("dni", user.getDni());
+            requestObject.put("email", user.getEmail());
+            requestObject.put("id_payment_rank", user.getIdPaymentRank());
+            requestObject.put("password", user.getPassword());
+            requestObject.put("phone_number", user.getPhoneNumber());
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return requestObject;
     }
 
-    public static String generateRegisterRequestUrl(Request request){
-        return USERS + "/" + request.getId_user() + "/solicitudes";
+    public static String generateRequestsUrl(Integer idUser){
+        return USERS + "/" + idUser + "/solicitudes";
     }
 
     public static JSONObject createRegisterRequestReq(Request request){
-        Gson gson = new Gson();
-        String jsonString = gson.toJson(request);
-        Log.i(TAG, jsonString);
         JSONObject requestObject = new JSONObject();
         try {
-            requestObject = new JSONObject(jsonString);
+            requestObject.put("amount",request.getAmount());
+            requestObject.put("id_loan_type",request.getIdLoanType());
+            requestObject.put("id_user",request.getIdUser());
+            requestObject.put("installments",request.getInstallments());
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return requestObject;
     }
+
 }

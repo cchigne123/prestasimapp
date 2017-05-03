@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import pe.edu.upc.prestasim.PrestasimApplication;
 import pe.edu.upc.prestasim.R;
+import pe.edu.upc.prestasim.fragments.RequestResultFragment;
 import pe.edu.upc.prestasim.fragments.UserFragment;
 import pe.edu.upc.prestasim.fragments.RequestFragment;
 import pe.edu.upc.prestasim.fragments.HistoryFragment;
@@ -130,8 +131,13 @@ public class MenuActivity extends AppCompatActivity
         mProgressDialog.setMessage(getResources().getString(R.string.loading));
     }
 
-    public void showDialog(){
-
+    public void openResultFragment(Integer id_request){
+        Bundle bundle = new Bundle();
+        bundle.putInt("id_request", id_request);
+        Fragment fragment = RequestResultFragment.newInstance();
+        fragment.setArguments(bundle);
+        mSupportFragmentManager.beginTransaction()
+                .replace(R.id.flContent, fragment).commit();
     }
 
 }

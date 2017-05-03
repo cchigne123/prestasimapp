@@ -1,7 +1,7 @@
 <resources>
     <string name="tag">PRESTASIM</string>
     <string name="app_name">Prestasim</string>
-    <string name="contentImages"/>
+    <string name="contentImages" />
     <string name="login">Iniciar Sesión</string>
     <string name="register">Regístrate</string>
     <string name="by_sambi">By Moviles UPC</string>
@@ -14,7 +14,7 @@
     <string name="phone">Telefono</string>
     <string name="name">Nombres</string>
     <string name="email">Correo Electrónico</string>
-    <string name="birth_date">Fecha de Nacimiento  (dd/MM/yyyy)</string>
+    <string name="birthDate">Fecha de Nacimiento  (dd/MM/yyyy)</string>
     <string name="accept">Acepto los términos y condiciones</string>
     <string name="should_authorize">Debe autorizar el registro</string>
     <string name="title_activity_menu">Prestasim</string>
@@ -24,6 +24,8 @@
 
     <string name="action_settings">Settings</string>
     <string name="new_request">Nueva Solicitud</string>
+    <string name="history_request_desc">Historial de Solicitudes</string>
+    <string name="request_results_desc">Opciones de Préstamo</string>
     <string name="history_request">Historial</string>
     <string name="my_info">Mi Informacion</string>
     <string name="close_session">Cerrar Sesion</string>
@@ -36,7 +38,17 @@
     <string name="loan_type">Tipo de Préstamo</string>
     <string name="amount_hint">Monto (S/.)</string>
     <string name="installment">Plazo (meses)</string>
+    <string name="simulate_btn">Simular</string>
     <string name="register_btn">Registrar</string>
+
+    <string name="request_type">Tipo de Préstamo:</string>
+    <string name="request_amount">Monto Simulado:</string>
+    <string name="request_date">Fecha:</string>
+    <string name="request_installments">Plazo:</string>
+    <string name="request_id">N° Solicitud:</string>
+
+    <string name="request_result_entity">Entidad:</string>
+    <string name="request_result_amount">Monto Cuota:</string>
 
     <!-- messages -->
     <string name="reg_err_empty_amount">Por favor ingrese un monto solicitado</string>

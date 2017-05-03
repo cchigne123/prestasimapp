@@ -18,12 +18,10 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,11 +73,10 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onResponse(JSONObject response) {
                             hideLoader();
                             Log.i(TAG, "response: " + response);
-                            Type listType = new TypeToken<List<PaymentRank>>() {}.getType();
                             try {
                                 if(BackendApi.API_OK_CODE.equals(response.getString("coderesult"))){
-                                    List<PaymentRank> paymentRankList = new Gson().fromJson
-                                            (response.getString("paymentRanks"), listType);
+                                    List<PaymentRank> paymentRankList = PaymentRank.build
+                                            (response.getJSONArray("paymentRanks"));
                                     for (PaymentRank paymentRank : paymentRankList) {
                                         masterService.savePaymentRank(paymentRank);
                                     }
@@ -106,7 +103,7 @@ public class RegisterActivity extends AppCompatActivity {
         spinnerMap = new HashMap<>();
         for(int i=0;i<paymentRanks.size();i++){
             PaymentRank paymentRank = paymentRanks.get(i);
-            spinnerMap.put(i, paymentRank.getId_payment_rank());
+            spinnerMap.put(i, paymentRank.getIdPaymentRank());
             spinnerArray[i] = paymentRank.getName();
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, spinnerArray);
@@ -118,12 +115,12 @@ public class RegisterActivity extends AppCompatActivity {
         final User user = new User()
                 .setName(nameET.getText().toString().trim())
                 .setAuthorization(authorizeCB.isChecked()?"1":"0")
-                .setBirth_date(birthDateET.getText().toString().trim())
+                .setBirthDate(birthDateET.getText().toString().trim())
                 .setDni(dniET.getText().toString().trim())
                 .setEmail(emailET.getText().toString().trim())
-                .setId_payment_rank(spinnerMap.get(paymentRanksSpinner.getSelectedItemPosition()))
+                .setIdPaymentRank(spinnerMap.get(paymentRanksSpinner.getSelectedItemPosition()))
                 .setPassword(passwordET.getText().toString().trim())
-                .setPhone_number(phoneET.getText().toString().trim());
+                .setPhoneNumber(phoneET.getText().toString().trim());
         String validationMessage = user.validateNew();
         if (Utilities.isNullOrEmpty(validationMessage)) {
             showLoader();

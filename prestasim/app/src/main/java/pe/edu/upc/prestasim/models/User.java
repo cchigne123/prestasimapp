@@ -2,7 +2,13 @@ package pe.edu.upc.prestasim.models;
 
 import com.orm.SugarRecord;
 
-import pe.edu.upc.prestasim.R;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import pe.edu.upc.prestasim.utils.Utilities;
 
 /**
@@ -10,24 +16,24 @@ import pe.edu.upc.prestasim.utils.Utilities;
  */
 public class User extends SugarRecord {
 
-    private Integer id_user;
+    private Integer idUser;
     private String name;
     private String dni;
     private String password;
-    private String phone_number;
+    private String phoneNumber;
     private String email;
-    private String birth_date;
-    private Integer id_payment_rank;
+    private String birthDate;
+    private Integer idPaymentRank;
     private String authorization;
 
     public User(){}
 
-    public Integer getId_user() {
-        return id_user;
+    public Integer getIdUser() {
+        return idUser;
     }
 
-    public User setId_user(Integer id_user) {
-        this.id_user = id_user;
+    public User setIdUser(Integer idUser) {
+        this.idUser = idUser;
         return this;
     }
 
@@ -58,12 +64,12 @@ public class User extends SugarRecord {
         return this;
     }
 
-    public String getPhone_number() {
-        return phone_number;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public User setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    public User setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
         return this;
     }
 
@@ -76,21 +82,21 @@ public class User extends SugarRecord {
         return this;
     }
 
-    public String getBirth_date() {
-        return birth_date;
+    public String getBirthDate() {
+        return birthDate;
     }
 
-    public User setBirth_date(String birth_date) {
-        this.birth_date = birth_date;
+    public User setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
         return this;
     }
 
-    public Integer getId_payment_rank() {
-        return id_payment_rank;
+    public Integer getIdPaymentRank() {
+        return idPaymentRank;
     }
 
-    public User setId_payment_rank(Integer id_payment_rank) {
-        this.id_payment_rank = id_payment_rank;
+    public User setIdPaymentRank(Integer idPaymentRank) {
+        this.idPaymentRank = idPaymentRank;
         return this;
     }
 
@@ -108,15 +114,32 @@ public class User extends SugarRecord {
                 || Utilities.isNullOrEmpty(this.password)
                 || Utilities.isNullOrEmpty(this.dni)
                 || Utilities.isNullOrEmpty(this.email)
-                || Utilities.isNullOrEmpty(this.birth_date)
-                || Utilities.isNullOrEmpty(this.phone_number)
-                || Utilities.isNullOrEmpty(this.id_payment_rank)){
+                || Utilities.isNullOrEmpty(this.birthDate)
+                || Utilities.isNullOrEmpty(this.phoneNumber)
+                || Utilities.isNullOrEmpty(this.idPaymentRank)){
             return "Complete todos los datos y vuelva a intentarlo";
         }
-        if(!Utilities.isDateWithCorrectFormat(this.birth_date)){
+        if(!Utilities.isDateWithCorrectFormat(this.birthDate)){
             return "La fecha debe estar en el formato dd/MM/yyyy";
         }
         return null;
+    }
+
+    public static User build(JSONObject jsonObject){
+        if(jsonObject == null) return null;
+        User user = new User();
+        try {
+            user.setName(jsonObject.getString("name"))
+                .setIdPaymentRank(jsonObject.getInt("id_payment_rank"))
+                .setEmail(jsonObject.getString("email"))
+                .setDni(jsonObject.getString("dni"))
+                .setPhoneNumber(jsonObject.getString("phone_number"))
+                .setBirthDate(jsonObject.getString("birth_date"))
+                .setIdUser(jsonObject.getInt("id_user"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 
 }
